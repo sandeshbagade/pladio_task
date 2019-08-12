@@ -11,7 +11,7 @@ class Login extends React.Component {
         let googleScript = document.createElement('script')
         googleScript.setAttribute('src', 'https://apis.google.com/js/platform.js')
         document.head.appendChild(googleScript)
-      
+        localStorage.setItem('signOut', 'Yes');
         this.renderButton();
 
     }
@@ -25,7 +25,7 @@ class Login extends React.Component {
           <Card.Body>
 
           <div style={{ marginLeft:'25%' }}>
-            <span id="my-signin2" ></span>
+            <span id="my-signin2" onClick={this.onItemClick}></span>
             </div>
           <br /> <div>--OR--</div> <br />
           <Link to="/cat">Contact</Link>
@@ -50,7 +50,11 @@ class Login extends React.Component {
        
                </div>)
     }
+    onItemClick(){
+      localStorage.setItem('signOut', 'No');
+    }
      onSuccess= async (googleUser)=> {
+       if(localStorage.getItem('signOut') != 'Yes'){
       console.log( googleUser.getAuthResponse().id_token);
      let user = await fetch(`http://api.pladio.co/api/users/google/`,
       {
@@ -68,7 +72,7 @@ class Login extends React.Component {
       
 
         this.props.history.push('cat')
-     
+    }
     }
 
     renderButton() {
