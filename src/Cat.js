@@ -1,4 +1,6 @@
 import React from 'react'
+import {  Link, BrowserRouter as Router } from 'react-router-dom'
+import { withRouter } from 'react-router';
 import  {Card , CardColumns , Container ,Breadcrumb} from 'react-bootstrap';
 class Cat extends React.Component {
     constructor(props) {
@@ -12,6 +14,7 @@ class Cat extends React.Component {
                     <Breadcrumb.Item active>
                     Categories
                     </Breadcrumb.Item>
+                    <span href="#" style={{ color:'#000', marginLeft:'80%',cursor: 'pointer'}} onClick={this.logoutThem}>Logout </span>
                 </Breadcrumb>
                 <Container >
                     <CardColumns>
@@ -30,6 +33,11 @@ class Cat extends React.Component {
             </Container>
    </div>
      }
+
+     logoutThem=()=>{
+        localStorage.setItem('signOut', 'Yes');
+        this.props.history.push('/')
+     }
   async componentDidMount(){
     let token = localStorage.getItem('token')
     let categories = await fetch(`http://api.pladio.co/api/category/`,
@@ -46,4 +54,4 @@ class Cat extends React.Component {
  
   }
 }
-export default Cat
+export default withRouter(Cat);
